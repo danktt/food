@@ -1,6 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import Feather from '@expo/vector-icons/Feather';
-import { useRouter } from 'expo-router';
-import { Card, Chip, useTheme } from 'heroui-native';
+import { useRouter, type Href } from 'expo-router';
+import { Button, Card, Chip, useTheme } from 'heroui-native';
 import type { FC } from 'react';
 import { Image, Pressable, View } from 'react-native';
 import Animated, {
@@ -12,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AppText } from '../../components/app-text';
 import { ScreenScrollView } from '../../components/screen-scroll-view';
+import { useAuth } from '../../contexts/auth-context';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -89,7 +91,7 @@ const HomeCard: FC<HomeCardProps & { index: number }> = ({
       entering={FadeInDown.duration(300)
         .delay(index * 100)
         .easing(Easing.out(Easing.ease))}
-      onPress={() => router.push(path)}
+      onPress={() => router.push(path as Href)}
     >
       <Card className="p-0 rounded-xl">
         <AnimatedView
@@ -142,6 +144,15 @@ const HomeCard: FC<HomeCardProps & { index: number }> = ({
 };
 
 export default function App() {
+  const { logout } = useAuth();
+  const router = useRouter();
+  const { colors } = useTheme();
+
+  const handleLogout = () => {
+    logout();
+    router.replace('/(auth)/login');
+  };
+
   return (
     <ScreenScrollView>
       <View className="items-center justify-center my-4">
@@ -163,6 +174,14 @@ export default function App() {
             index={index}
           />
         ))}
+      </View>
+
+      {/* Botão de Logout */}
+      <View className="mt-8 mb-4">
+        <Button variant="danger" onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={20} color={colors.dangerForeground} />
+          <Button.Label>Sair da Conta</Button.Label>
+        </Button>
       </View>
     </ScreenScrollView>
   );

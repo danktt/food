@@ -16,6 +16,7 @@ import {
 } from 'react-native-reanimated';
 import '../../global.css';
 import { AppThemeProvider, useAppTheme } from '../contexts/app-theme-context';
+import { AuthProvider } from '../contexts/auth-context';
 
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -51,9 +52,11 @@ export default function Layout() {
   return (
     <GestureHandlerRootView style={styles.root}>
       <KeyboardProvider>
-        <AppThemeProvider>
-          <ThemedLayout />
-        </AppThemeProvider>
+        <AuthProvider>
+          <AppThemeProvider>
+            <ThemedLayout />
+          </AppThemeProvider>
+        </AuthProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>
   );
