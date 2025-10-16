@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AppText } from '../../../components/app-text';
 import { HeaderWithAvatar } from '../../../components/header-with-avatar';
+import { WeeklyCalendar } from '../../../components/weekly-calendar';
 
 const AnimatedScrollView = Animated.createAnimatedComponent(Animated.ScrollView);
 
@@ -45,6 +46,13 @@ export default function DiarioScreen() {
               Acompanhe seu dia a dia
             </AppText>
           </View>
+
+          {/* Calendário Semanal */}
+          <WeeklyCalendar
+            onDatePress={(date) => {
+              console.log('Data selecionada:', date.toLocaleDateString('pt-BR'));
+            }}
+          />
 
           {/* Cards de exemplo */}
           <View className="gap-4">
